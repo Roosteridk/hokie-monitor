@@ -7,7 +7,7 @@ export async function scrape() {
     const form = new FormData();
 
     form.append("CAMPUS", "0");
-    form.append("TERMYEAR", "202601");
+    form.append("TERMYEAR", "202609");
     form.append("CORE_CODE	", "AR%");
     form.append("subj_code", subjectCode); // loop through each subject
     form.append("SCHDTYPE", "%");
