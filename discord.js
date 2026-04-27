@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
     body,
     signature,
     timestamp,
-    Deno.env.get("PUBLIC_KEY")!,
+    Deno.env.get("PUBLIC_KEY") ?? "",
   );
   if (!isValidRequest) {
     return new Response("Bad request signature", {
