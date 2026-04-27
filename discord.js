@@ -1,4 +1,5 @@
 import { verifyKey } from "npm:discord-interactions";
+import './refresh.js'
 
 // Commands: /watch class|section [CS-XXXX]|XXXXX
 const kv = await Deno.openKv();
