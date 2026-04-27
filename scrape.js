@@ -1,12 +1,15 @@
 import * as cheerio from "npm:cheerio";
+import { subjectCodes } from "./sections.js";
 
-export async function scrape(subjectCode = "CS") {
+export async function scrape() {
+    const sections = new Set();
+    for (const subjectCode of subjectCodes) {
     const form = new FormData();
 
     form.append("CAMPUS", "0");
-    form.append("TERMYEAR", "202409");
+    form.append("TERMYEAR", "202601");
     form.append("CORE_CODE	", "AR%");
-    form.append("subj_code", "CS"); // loop through each subject
+    form.append("subj_code", subjectCode); // loop through each subject
     form.append("SCHDTYPE", "%");
     form.append("CRSE_NUMBER", "");
     form.append("crn", "");
@@ -25,9 +28,6 @@ export async function scrape(subjectCode = "CS") {
     const html = await res.text();
 
     const $ = cheerio.load(html);
-
-    const sections = new Set();
-
     const rows = $(".dataentrytable tbody").children();
 
     for (let i = 1; i < rows.length; i++) { // Start from 2nd element since 1st row is title
@@ -36,11 +36,12 @@ export async function scrape(subjectCode = "CS") {
         );
         if (cols[0].length != 5) continue; // Check if first col is CRN or fake row
         sections.add({
-            crn: Number(cols[0]),
+            crn: cols[0],
             class: cols[1],
             title: cols[2],
         });
     }
+  }
 
     return sections;
 }
